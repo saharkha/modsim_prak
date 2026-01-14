@@ -28,6 +28,7 @@ public:
 
     // --- Hilfsfunktion ---
     void print() const;
+    void resize(size_t r, size_t c, double initial_value = 0.0);
 };
 
 #endif // MATRIX_H

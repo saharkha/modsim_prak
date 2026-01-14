@@ -48,3 +48,10 @@ void Matrix::print() const {
         std::cout << "\n";
     }
 }
+
+void Matrix::resize(size_t r, size_t c, double initial_value) {
+    rows = r;
+    cols = c;
+    data.assign(rows * cols, initial_value); // Setzt neue Größe und füllt mit Wert
+}
+

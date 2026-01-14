@@ -10,6 +10,9 @@
 template <typename T>
 class SparseMatrix {
 public:
+
+    SparseMatrix() : rows(0), cols(0), max_entries_per_row(0) {}
+
     // Konstante für den Füllwert in colInds
     static constexpr size_t FILL_INDEX = (size_t)-1;
     
@@ -120,6 +123,24 @@ public:
         }
         return 0.0;
     }
+
+    // --- Neue Resize-Methode für die Gitterhierarchie ---
+    /**
+     * @param r      Neue Zeilenanzahl
+     * @param c      Neue Spaltenanzahl
+     * @param n_max  Maximale Einträge pro Zeile (für Poisson in 2D ist das 5)
+     */
+    void resize(size_t r, size_t c, size_t n_max) {
+        rows = r;
+        cols = c;
+        max_entries_per_row = n_max;
+        
+        size_t total_size = rows * max_entries_per_row;
+        
+        // Bestehende Daten löschen und mit Initialwerten füllen
+        colInds.assign(total_size, FILL_INDEX); 
+        values.assign(total_size, static_cast<T>(0.0));
+    }
     
     // Fügt einen Eintrag hinzu und hält die Sortierung bei
     void addEntry(size_t r, size_t c, T val) {
@@ -223,5 +244,9 @@ public:
         return EntryIterator(val_ptr, col_ptr);
     }
 };
+
+// Am Ende der sparsematrix.h, außerhalb der class SparseMatrix { ... };
+template <typename T>
+constexpr size_t SparseMatrix<T>::FILL_INDEX;
 
 #endif // SPARSEMATRIX_H
