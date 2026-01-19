@@ -185,7 +185,9 @@ int main_Aufgabe3() { // MUSS int sein
         // 2. System auf dem feinsten Level vorbereiten
         PoissonAssembler assembler;
         const LevelInfo& fineLvl = hierarchy.getLevel(2);
-        SparseMatrix<double> A_fine(1, 1, 5);
+        SparseMatrix<double> A_fine(1, 1, 5); // Matrix ausgeben???: In deiner Zeile SparseMatrix<double> A_fine(1, 1, 5); sind die ersten beiden Parameter 1, 1 nur Platzhalter. 
+        // Der eigentliche Platz wird erst durch A.resize(lvl.numNodes, lvl.numNodes, 5) innerhalb des PoissonAssemblers geschaffen. Die 5 ist die wichtigste Zahl: 
+        // Sie sagt deiner Matrix, dass wir im 2D-Raum mit einem 5-Punkt-Stern arbeiten und daher niemals mehr als 5 Werte pro Zeile speichern müssen
         std::vector<double> f_fine;
         
         assembler.assemble(A_fine, f_fine, fineLvl);
@@ -221,6 +223,8 @@ int main_Aufgabe3() { // MUSS int sein
     }
     return 0; // Rückgabewert hinzufügen
 }
+
+
 
 // int main_Aufgabe4() {
 //     std::cout << std::left << std::setw(8) << "Level" << std::setw(12) << "Knoten" 
